@@ -8,13 +8,18 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import DashboardLayout from "@/components/layout-dashboard"
 
- function CreatePaketWisata() {
+function CreatePaketWisata() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     nama_paket: "",
     deskripsi: "",
     fasilitas: "",
     harga_per_pack: "",
+    foto1: "",
+    foto2: "",
+    foto3: "",
+    foto4: "",
+    foto5: "",
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -37,7 +42,7 @@ import DashboardLayout from "@/components/layout-dashboard"
     })
 
     if (res.ok) {
-      router.push("/paket-wisata")
+      router.push("/dashboard/paket-wisata")
     } else {
       alert("Gagal membuat paket.")
     }
@@ -63,6 +68,18 @@ import DashboardLayout from "@/components/layout-dashboard"
           <Label>Harga per Pack</Label>
           <Input type="number" name="harga_per_pack" value={formData.harga_per_pack} onChange={handleChange} required />
         </div>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <div key={n}>
+            <Label htmlFor={`foto${n}`}>URL Foto {n}</Label>
+            <Input
+              type="url"
+              name={`foto${n}`}
+              value={(formData as any)[`foto${n}`]}
+              onChange={handleChange}
+              placeholder={`https://example.com/foto${n}.jpg`}
+            />
+          </div>
+        ))}
         <Button type="submit" className="mt-2">Simpan</Button>
       </form>
     </>
@@ -70,9 +87,9 @@ import DashboardLayout from "@/components/layout-dashboard"
 }
 
 export default function Page() {
-    return (
-        <DashboardLayout breadcrumbTitle="Create Paket" breadcrumbParent="Paket Wisata" breadcrumbLink="/dashboard/paket-wisata">
-            <CreatePaketWisata />
-        </DashboardLayout>
-    )
+  return (
+    <DashboardLayout breadcrumbTitle="Create Paket" breadcrumbParent="Paket Wisata" breadcrumbLink="/dashboard/paket-wisata">
+      <CreatePaketWisata />
+    </DashboardLayout>
+  )
 }
